@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webshoppingagg
+  name: webshoppingagg
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webshoppingagg
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: webshoppingagg
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: Kestrel__Endpoints__Http__Url
+              value: http://0.0.0.0:80
+            - name: Kestrel__Endpoints__gRPC__Url
+              value: http://0.0.0.0:81
+            - name: ReverseProxy__Clusters__catalog__Destinations__destination0__Address
+              value: http://catalog-api
+            - name: ReverseProxy__Clusters__basket__Destinations__destination0__Address
+              value: http://basket-api
+            - name: ReverseProxy__Clusters__orders__Destinations__destination0__Address
+              value: http://ordering-api
+            - name: ReverseProxy__Clusters__signalr__Destinations__destination0__Address
+              value: https://signalr.leenet.link
+            - name: Identity__Url
+              value: https://identity.leenet.link
+            - name: Urls__GrpcCatalog
+              value: http://catalog-api:81
+            - name: Urls__GrpcBasket
+              value: http://basket-api:81
+            - name: Urls__GrpcOrdering
+              value: http://ordering-api:81
+          image: master-0.local:32000/webshoppingagg:1.0.117
+          name: webshoppingagg
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

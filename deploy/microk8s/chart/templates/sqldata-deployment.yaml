@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sqldata
+  name: sqldata
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sqldata
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: sqldata
+    spec:
+      containers:
+        - env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_SA_PASSWORD
+              value: Pass@word
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          name: sqldata
+          ports:
+            - containerPort: 1433
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

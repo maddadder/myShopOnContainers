@@ -1,0 +1,179 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webshoppingagg
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - agg.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host:  webshoppingagg.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-apigwms
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - eshop.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /mobileshoppingagg
+      route:
+        - destination:
+            host: mobileshoppingagg.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webhooks-web
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - eshop.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /webhooks-web
+      route:
+        - destination:
+            host: webhooks-client.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webhooks-api
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - eshop.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /webhooks-api
+      route:
+        - destination:
+            host: webhooks-api.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webstatus
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - eshop.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /webstatus
+      route:
+        - destination:
+            host: webstatus.leenet.svc.cluster.local
+            port:
+              number: 5107
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webspa
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - webspa.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: webspa.leenet.svc.cluster.local
+            port:
+              number: 5104
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-webmvc
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - eshop.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: webmvc.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-identity
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - identity.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host:  identity-api.leenet.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eshop-ordering-signalrhub
+  namespace: {{ .Values.gatewayNamespace }}
+spec:
+  gateways:
+    - {{ .Values.gateway }}
+  hosts:
+    - signalr.leenet.link
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host:  ordering-signalrhub.leenet.svc.cluster.local
+            port:
+              number: 80

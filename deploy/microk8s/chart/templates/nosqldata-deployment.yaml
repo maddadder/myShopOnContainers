@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nosqldata
+  name: nosqldata
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nosqldata
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: nosqldata
+    spec:
+      containers:
+        - image: mongo
+          name: nosqldata
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

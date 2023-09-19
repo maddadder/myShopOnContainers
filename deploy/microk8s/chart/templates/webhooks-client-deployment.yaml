@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webhooks-client
+  name: webhooks-client
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webhooks-client
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: webhooks-client
+    spec:
+      containers:
+        - image: master-0.local:32000/webhooks.client:1.0.117
+          name: webhooks-client
+          resources: {}
+      restartPolicy: Always
+status: {}

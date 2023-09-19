@@ -1,4 +1,14 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.AspNetCore.HttpOverrides;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 builder.AddServiceDefaults();
 
@@ -15,6 +25,13 @@ var app = builder.Build();
 app.UseServiceDefaults();
 
 app.UseStaticFiles();
+
+// caused the reply_url to start with https
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next();
+});
 
 // Fix samesite issue when running eShop from docker-compose locally as by default http protocol is being used
 // Refer to https://github.com/dotnet-architecture/eShopOnContainers/issues/1391

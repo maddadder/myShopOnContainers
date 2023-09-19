@@ -1,0 +1,153 @@
+version: '3.4'
+
+services:
+
+  seq:
+    image: datalust/seq:latest
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest 
+
+  nosqldata:
+    image: mongo
+
+  basketdata:
+    image: redis:alpine
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  identity-api:
+    image: master-0.local:32000/identity.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
+    depends_on:
+      - sqldata
+
+  basket-api:
+    image: master-0.local:32000/basket.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+    depends_on:
+      - basketdata
+      - identity-api
+      - rabbitmq
+
+  catalog-api:
+    image: master-0.local:32000/catalog.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
+
+  ordering-api:
+    image: master-0.local:32000/ordering.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
+
+  ordering-backgroundtasks:
+    image: master-0.local:32000/ordering.backgroundtasks:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.BackgroundTasks/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
+
+  payment-api:
+    image: master-0.local:32000/payment.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.API/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  webhooks-api:
+    image: master-0.local:32000/webhooks.api:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Webhooks/Webhooks.API/Dockerfile
+    depends_on:
+      - sqldata
+
+  mobileshoppingagg:
+    image: master-0.local:32000/mobileshoppingagg:1.0.117
+    build:
+      context: .
+      dockerfile: ApiGateways/Mobile.Bff.Shopping/aggregator/Dockerfile
+    depends_on:
+      - nosqldata
+      - sqldata
+      - identity-api
+      - rabbitmq
+      - ordering-api
+      - catalog-api
+      - basket-api
+
+  webshoppingagg:
+    image: master-0.local:32000/webshoppingagg:1.0.117
+    build:
+      context: .
+      dockerfile: ApiGateways/Web.Bff.Shopping/aggregator/Dockerfile
+    depends_on:
+      - nosqldata
+      - sqldata
+      - identity-api
+      - rabbitmq
+      - ordering-api
+      - catalog-api
+      - basket-api
+
+  ordering-signalrhub:
+    image: master-0.local:32000/ordering.signalrhub:1.0.117
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.SignalrHub/Dockerfile
+    depends_on:
+      - nosqldata
+      - sqldata
+      - identity-api
+      - rabbitmq
+      - ordering-api
+      - catalog-api
+      - basket-api
+
+  webstatus:
+    image: master-0.local:32000/webstatus:1.0.117
+    build:
+      context: .
+      dockerfile: Web/WebStatus/Dockerfile
+
+  webspa:
+    image: master-0.local:32000/webspa:1.0.117
+    build:
+      context: .
+      dockerfile: Web/WebSPA/Dockerfile
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:16-bullseye}
+    depends_on:
+      - webshoppingagg
+
+  webmvc:
+    image: master-0.local:32000/webmvc:1.0.117
+    build:
+      context: .
+      dockerfile: Web/WebMVC/Dockerfile
+    depends_on:
+      - webshoppingagg
+
+  webhooks-client:
+    image: master-0.local:32000/webhooks.client:1.0.117
+    build:
+      context: .
+      dockerfile: Web/WebhookClient/Dockerfile
+    depends_on:
+      - webhooks-api

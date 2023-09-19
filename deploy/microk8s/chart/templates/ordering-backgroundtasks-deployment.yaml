@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ordering-backgroundtasks
+  name: ordering-backgroundtasks
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ordering-backgroundtasks
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: ordering-backgroundtasks
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:80
+            - name: ApplicationInsights__InstrumentationKey
+            - name: AzureServiceBusEnabled
+              value: "False"
+            - name: CheckUpdateTime
+              value: "30000"
+            - name: ConnectionStrings__OrderingDb
+              value: Server=sqldata.leenet.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+            - name: ConnectionStrings__EventBus
+              value: rabbitmq.leenet.svc.cluster.local
+            - name: EventBusPassword
+              value: 'guest'
+            - name: EventBusUserName
+              value: 'guest'
+            - name: GracePeriodTime
+              value: "1"
+            - name: OrchestratorType
+            - name: UseCustomizationData
+              value: "True"
+            - name: UseLoadTest
+              value: "False"
+          image: master-0.local:32000/ordering.backgroundtasks:1.0.117
+          name: ordering-backgroundtasks
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webmvc
+  name: webmvc
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webmvc
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: webmvc
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:80
+            - name: ApplicationInsights__InstrumentationKey
+            - name: BasketUrl
+              value: http://basket-api
+            - name: CatalogUrl
+              value: http://catalog-api
+            - name: IdentityUrl
+              value: https://identity.leenet.link
+            - name: Identity__ExternalUrl
+              value: https://identity.leenet.link
+            - name: CallBackUrl
+              value: https://eshop.leenet.link
+            - name: OrchestratorType
+            - name: OrderingUrl
+              value: http://ordering-api
+            - name: PaymentUrl
+              value: http://payment-api
+            - name: PurchaseUrl
+              value: https://agg.leenet.link
+            - name: UseCustomizationData
+              value: "True"
+            - name: UseLoadTest
+              value: "False"
+          image: master-0.local:32000/webmvc:1.0.117
+          name: webmvc
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

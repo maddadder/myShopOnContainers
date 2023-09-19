@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webspa
+  name: webspa
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webspa
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: webspa
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:80
+            - name: ApplicationInsights__InstrumentationKey
+            - name: BasketUrlHC
+              value: http://basket-api/hc
+            - name: CatalogUrlHC
+              value: http://catalog-api/hc
+            - name: IdentityUrl
+              value: https://identity.leenet.link
+            - name: IdentityUrlHC
+              value: http://identity-api
+            - name: OrchestratorType
+            - name: OrderingUrlHC
+              value: http://ordering-api
+            - name: PaymentUrlHC
+              value: http://payment-api
+            - name: PurchaseUrl
+              value: https://agg.leenet.link
+            - name: UseCustomizationData
+              value: "True"
+          image: master-0.local:32000/webspa:1.0.117
+          name: webspa
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

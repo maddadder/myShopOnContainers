@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: identity-api
+  name: identity-api
+  namespace: leenet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: identity-api
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.prod.yml
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/src-default: "true"
+        io.kompose.service: identity-api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:80
+            - name: ApplicationInsights__InstrumentationKey
+            - name: BasketApiClient
+              value: http://basket-api
+            - name: ConnectionStrings__IdentityDb
+              value: Server=sqldata.leenet.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.IdentityDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+            - name: MobileShoppingAggClient
+              value: https://eshop.leenet.link/mobileshoppingagg
+            - name: MvcClient
+              value: https://eshop.leenet.link
+            - name: OrchestratorType
+            - name: OrderingApiClient
+              value: http://ordering-api
+            - name: SpaClient
+              value: https://webspa.leenet.link
+            - name: UseCustomizationData
+              value: "True"
+            - name: WebShoppingAggClient
+              value: https://agg.leenet.link
+            - name: XamarinCallback
+              value: https://eshop.leenet.link/connect/xamarincallback
+          image: master-0.local:32000/identity.api:1.0.117
+          name: identity-api
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}
