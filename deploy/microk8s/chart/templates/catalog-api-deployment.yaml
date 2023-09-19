@@ -54,6 +54,8 @@ spec:
               value: http://0.0.0.0:80
             - name: Kestrel__Endpoints__gRPC__Url
               value: http://0.0.0.0:81
+            - name: PicBaseUrl
+              value: https://agg.leenet.link/c/api/v1/catalog/items/[0]/pic/
           image: master-0.local:32000/catalog.api:1.0.117
           name: catalog-api
           ports:
