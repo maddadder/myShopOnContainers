@@ -48,6 +48,10 @@ spec:
               value: https://identity.leenet.link
             - name: Identity__Url
               value: https://identity.leenet.link
+            - name: Kestrel__Endpoints__Http__Url
+              value: http://0.0.0.0:80
+            - name: Kestrel__Endpoints__gRPC__Url
+              value: http://0.0.0.0:81
             - name: OrchestratorType
             - name: UseCustomizationData
               value: "True"

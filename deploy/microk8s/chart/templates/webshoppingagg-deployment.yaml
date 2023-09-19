@@ -43,6 +43,16 @@ spec:
               value: https://signalr.leenet.link
             - name: Identity__Url
               value: https://identity.leenet.link
+            - name: Urls__Identity
+              value: https://identity.leenet.link
+            - name: Urls__Signalr
+              value: https://signalr.leenet.link
+            - name: Urls__Catalog
+              value: http://catalog-api
+            - name: Urls__Basket
+              value: http://basket-api
+            - name: Urls__Orders
+              value: http://ordering-api
             - name: Urls__GrpcCatalog
               value: http://catalog-api:81
             - name: Urls__GrpcBasket

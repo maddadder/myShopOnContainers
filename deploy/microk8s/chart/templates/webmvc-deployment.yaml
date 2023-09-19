@@ -53,6 +53,8 @@ spec:
               value: "True"
             - name: UseLoadTest
               value: "False"
+            - name: SignalrHubUrl
+              value: https://signalr.leenet.link
           image: master-0.local:32000/webmvc:1.0.117
           name: webmvc
           ports:
