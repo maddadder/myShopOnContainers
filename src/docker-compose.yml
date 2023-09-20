@@ -18,7 +18,7 @@ services:
     image: rabbitmq:3-management-alpine
 
   identity-api:
-    image: master-0.local:32000/identity.api:1.0.118
+    image: ${REGISTRY:-eshop}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Identity/Identity.API/Dockerfile
@@ -26,7 +26,7 @@ services:
       - sqldata
 
   basket-api:
-    image: master-0.local:32000/basket.api:1.0.118
+    image: ${REGISTRY:-eshop}/basket.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
@@ -36,7 +36,7 @@ services:
       - rabbitmq
 
   catalog-api:
-    image: master-0.local:32000/catalog.api:1.0.118
+    image: ${REGISTRY:-eshop}/catalog.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
@@ -45,7 +45,7 @@ services:
       - rabbitmq
 
   ordering-api:
-    image: master-0.local:32000/ordering.api:1.0.118
+    image: ${REGISTRY:-eshop}/ordering.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
@@ -54,7 +54,7 @@ services:
       - rabbitmq
 
   ordering-backgroundtasks:
-    image: master-0.local:32000/ordering.backgroundtasks:1.0.118
+    image: ${REGISTRY:-eshop}/ordering.backgroundtasks:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.BackgroundTasks/Dockerfile
@@ -63,7 +63,7 @@ services:
       - rabbitmq
 
   payment-api:
-    image: master-0.local:32000/payment.api:1.0.118
+    image: ${REGISTRY:-eshop}/payment.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Payment/Payment.API/Dockerfile
@@ -71,7 +71,7 @@ services:
       - rabbitmq
 
   webhooks-api:
-    image: master-0.local:32000/webhooks.api:1.0.118
+    image: ${REGISTRY:-eshop}/webhooks.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Webhooks/Webhooks.API/Dockerfile
@@ -79,7 +79,7 @@ services:
       - sqldata
 
   mobileshoppingagg:
-    image: master-0.local:32000/mobileshoppingagg:1.0.118
+    image: ${REGISTRY:-eshop}/mobileshoppingagg:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: ApiGateways/Mobile.Bff.Shopping/aggregator/Dockerfile
@@ -93,7 +93,7 @@ services:
       - basket-api
 
   webshoppingagg:
-    image: master-0.local:32000/webshoppingagg:1.0.118
+    image: ${REGISTRY:-eshop}/webshoppingagg:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: ApiGateways/Web.Bff.Shopping/aggregator/Dockerfile
@@ -107,7 +107,7 @@ services:
       - basket-api
 
   ordering-signalrhub:
-    image: master-0.local:32000/ordering.signalrhub:1.0.118
+    image: ${REGISTRY:-eshop}/ordering.signalrhub:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.SignalrHub/Dockerfile
@@ -121,13 +121,13 @@ services:
       - basket-api
 
   webstatus:
-    image: master-0.local:32000/webstatus:1.0.118
+    image: ${REGISTRY:-eshop}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Web/WebStatus/Dockerfile
 
   webspa:
-    image: master-0.local:32000/webspa:1.0.118
+    image: ${REGISTRY:-eshop}/webspa:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Web/WebSPA/Dockerfile
@@ -137,7 +137,7 @@ services:
       - webshoppingagg
 
   webmvc:
-    image: master-0.local:32000/webmvc:1.0.118
+    image: ${REGISTRY:-eshop}/webmvc:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Web/WebMVC/Dockerfile
@@ -145,7 +145,7 @@ services:
       - webshoppingagg
 
   webhooks-client:
-    image: master-0.local:32000/webhooks.client:1.0.118
+    image: ${REGISTRY:-eshop}/webhooks.client:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Web/WebhookClient/Dockerfile

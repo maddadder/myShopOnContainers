@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: catalog-api
   name: catalog-api
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   ports:
     - name: "80"

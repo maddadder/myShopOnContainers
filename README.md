@@ -28,32 +28,8 @@ _**Dev** branch contains the latest **beta** code and their images are tagged wi
 Make sure you have [installed](https://docs.docker.com/docker-for-windows/install/) and [configured](https://github.com/dotnet-architecture/eShopOnContainers/wiki/Windows-setup#configure-docker) docker in your environment. After that, you can run the below commands from the **/src/** directory and get started with the `eShopOnContainers` immediately.
 
 ```powershell
-
-cp docker-compose-microk8s.yml docker-compose.yml
-
 docker-compose build
-docker push master-0.local:32000/identity.api:1.0.118
-docker push master-0.local:32000/basket.api:1.0.118
-docker push master-0.local:32000/catalog.api:1.0.118
-docker push master-0.local:32000/ordering.api:1.0.118
-docker push master-0.local:32000/ordering.backgroundtasks:1.0.118
-docker push master-0.local:32000/payment.api:1.0.118
-docker push master-0.local:32000/webhooks.api:1.0.118
-docker push master-0.local:32000/mobileshoppingagg:1.0.118
-docker push master-0.local:32000/webshoppingagg:1.0.118
-docker push master-0.local:32000/ordering.signalrhub:1.0.118
-docker push master-0.local:32000/webstatus:1.0.118
-docker push master-0.local:32000/webspa:1.0.118
-docker push master-0.local:32000/webmvc:1.0.118
-docker push master-0.local:32000/webhooks.client:1.0.118
-
-#helm install eshop ../deploy/microk8s/chart --namespace leenet
-helm upgrade eshop ../deploy/microk8s/chart --namespace leenet
-#docker-compose up
-
-helm uninstall eshop --namespace leenet
-
-https://agg.leenet.link/c/api/v1/catalog/items?pageIndex=0&pageSize=12
+docker-compose up
 ```
 
 You should be able to browse different components of the application by using the below URLs :

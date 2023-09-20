@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: basket-api
   name: basket-api
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -55,7 +55,7 @@ spec:
               value: http://0.0.0.0:80
             - name: Kestrel__Endpoints__gRPC__Url
               value: http://0.0.0.0:81
-          image: master-0.local:32000/basket.api:1.0.118
+          image: {{ .Values.registry.url }}/basket.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: basket-api
           ports:
             - containerPort: 80

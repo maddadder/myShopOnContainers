@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: webstatus
   name: webstatus
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -47,7 +47,7 @@ spec:
               value: http://webmvc/hc
             - name: spa
               value: http://webspa/hc
-          image: master-0.local:32000/webstatus:1.0.118
+          image: {{ .Values.registry.url }}/webstatus:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webstatus
           ports:
             - containerPort: 80

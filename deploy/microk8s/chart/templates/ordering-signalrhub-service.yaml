@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: ordering-signalrhub
   name: ordering-signalrhub
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   ports:
     - name: "80"

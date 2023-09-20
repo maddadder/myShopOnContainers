@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: catalog-api
   name: catalog-api
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -47,7 +47,6 @@ spec:
             - name: EventBusUserName
               value: 'guest'
             - name: OrchestratorType
-            - name: PicBaseUrl
             - name: UseCustomizationData
               value: "True"
             - name: Kestrel__Endpoints__Http__Url
@@ -56,7 +55,7 @@ spec:
               value: http://0.0.0.0:81
             - name: PicBaseUrl
               value: https://agg.leenet.link/c/api/v1/catalog/items/[0]/pic/
-          image: master-0.local:32000/catalog.api:1.0.118
+          image: {{ .Values.registry.url }}/catalog.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: catalog-api
           ports:
             - containerPort: 80

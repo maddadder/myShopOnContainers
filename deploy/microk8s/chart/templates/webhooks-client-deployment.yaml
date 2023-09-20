@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: webhooks-client
   name: webhooks-client
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -26,7 +26,7 @@ spec:
         io.kompose.service: webhooks-client
     spec:
       containers:
-        - image: master-0.local:32000/webhooks.client:1.0.118
+        - image: {{ .Values.registry.url }}/webhooks.client:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webhooks-client
           resources: {}
       restartPolicy: Always

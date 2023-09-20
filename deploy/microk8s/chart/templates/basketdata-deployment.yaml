@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: basketdata
   name: basketdata
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:

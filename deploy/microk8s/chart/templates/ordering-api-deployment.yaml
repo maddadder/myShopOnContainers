@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: ordering-api
   name: ordering-api
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -57,7 +57,7 @@ spec:
               value: "True"
             - name: UseLoadTest
               value: "False"
-          image: master-0.local:32000/ordering.api:1.0.118
+          image: {{ .Values.registry.url }}/ordering.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: ordering-api
           ports:
             - containerPort: 80

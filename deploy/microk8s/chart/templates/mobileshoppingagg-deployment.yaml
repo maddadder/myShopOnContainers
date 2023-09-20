@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: mobileshoppingagg
   name: mobileshoppingagg
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -37,7 +37,7 @@ spec:
               value: http://identity-api
             - name: urls__orders
               value: http://ordering-api
-          image: master-0.local:32000/mobileshoppingagg:1.0.118
+          image: {{ .Values.registry.url }}/mobileshoppingagg:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: mobileshoppingagg
           ports:
             - containerPort: 80

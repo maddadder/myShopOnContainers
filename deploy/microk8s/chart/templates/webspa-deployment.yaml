@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: webspa
   name: webspa
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -51,7 +51,7 @@ spec:
               value: https://signalr.leenet.link
             - name: UseCustomizationData
               value: "True"
-          image: master-0.local:32000/webspa:1.0.118
+          image: {{ .Values.registry.url }}/webspa:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webspa
           ports:
             - containerPort: 80

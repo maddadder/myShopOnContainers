@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: webshoppingagg
   name: webshoppingagg
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -59,7 +59,7 @@ spec:
               value: http://basket-api:81
             - name: Urls__GrpcOrdering
               value: http://ordering-api:81
-          image: master-0.local:32000/webshoppingagg:1.0.118
+          image: {{ .Values.registry.url }}/webshoppingagg:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webshoppingagg
           ports:
             - containerPort: 80

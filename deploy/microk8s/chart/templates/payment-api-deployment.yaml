@@ -8,7 +8,7 @@ metadata:
   labels:
     io.kompose.service: payment-api
   name: payment-api
-  namespace: leenet
+  namespace: {{ .Values.appNamespace }}
 spec:
   replicas: 1
   selector:
@@ -41,7 +41,7 @@ spec:
             - name: EventBusUserName
               value: 'guest'
             - name: OrchestratorType
-          image: master-0.local:32000/payment.api:1.0.118
+          image: {{ .Values.registry.url }}/payment.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: payment-api
           ports:
             - containerPort: 80
