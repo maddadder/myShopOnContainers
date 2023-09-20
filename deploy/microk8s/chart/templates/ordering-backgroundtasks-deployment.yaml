@@ -51,7 +51,7 @@ spec:
               value: "True"
             - name: UseLoadTest
               value: "False"
-          image: master-0.local:32000/ordering.backgroundtasks:1.0.117
+          image: master-0.local:32000/ordering.backgroundtasks:1.0.118
           name: ordering-backgroundtasks
           ports:
             - containerPort: 80

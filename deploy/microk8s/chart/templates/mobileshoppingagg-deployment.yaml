@@ -37,7 +37,7 @@ spec:
               value: http://identity-api
             - name: urls__orders
               value: http://ordering-api
-          image: master-0.local:32000/mobileshoppingagg:1.0.117
+          image: master-0.local:32000/mobileshoppingagg:1.0.118
           name: mobileshoppingagg
           ports:
             - containerPort: 80

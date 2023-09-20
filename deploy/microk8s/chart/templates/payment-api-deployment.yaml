@@ -41,7 +41,7 @@ spec:
             - name: EventBusUserName
               value: 'guest'
             - name: OrchestratorType
-          image: master-0.local:32000/payment.api:1.0.117
+          image: master-0.local:32000/payment.api:1.0.118
           name: payment-api
           ports:
             - containerPort: 80

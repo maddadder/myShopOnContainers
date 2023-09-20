@@ -28,7 +28,7 @@ spec:
       containers:
         - env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: ASPNETCORE_URLS
               value: http://0.0.0.0:80
             - name: ApplicationInsights__InstrumentationKey
@@ -55,7 +55,7 @@ spec:
               value: "False"
             - name: SignalrHubUrl
               value: https://signalr.leenet.link
-          image: master-0.local:32000/webmvc:1.0.117
+          image: master-0.local:32000/webmvc:1.0.118
           name: webmvc
           ports:
             - containerPort: 80

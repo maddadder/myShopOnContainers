@@ -59,7 +59,7 @@ spec:
               value: http://basket-api:81
             - name: Urls__GrpcOrdering
               value: http://ordering-api:81
-          image: master-0.local:32000/webshoppingagg:1.0.117
+          image: master-0.local:32000/webshoppingagg:1.0.118
           name: webshoppingagg
           ports:
             - containerPort: 80

@@ -31,7 +31,7 @@ spec:
               value: Development
             - name: ConnectionStrings__EventBus
               value: rabbitmq.leenet.svc.cluster.local
-          image: master-0.local:32000/webhooks.api:1.0.117
+          image: master-0.local:32000/webhooks.api:1.0.118
           name: webhooks-api
           resources: {}
       restartPolicy: Always

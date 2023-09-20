@@ -57,7 +57,7 @@ spec:
               value: "True"
             - name: UseLoadTest
               value: "False"
-          image: master-0.local:32000/ordering.api:1.0.117
+          image: master-0.local:32000/ordering.api:1.0.118
           name: ordering-api
           ports:
             - containerPort: 80

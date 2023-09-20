@@ -32,20 +32,20 @@ Make sure you have [installed](https://docs.docker.com/docker-for-windows/instal
 cp docker-compose-microk8s.yml docker-compose.yml
 
 docker-compose build
-docker push master-0.local:32000/identity.api:1.0.117
-docker push master-0.local:32000/basket.api:1.0.117
-docker push master-0.local:32000/catalog.api:1.0.117
-docker push master-0.local:32000/ordering.api:1.0.117
-docker push master-0.local:32000/ordering.backgroundtasks:1.0.117
-docker push master-0.local:32000/payment.api:1.0.117
-docker push master-0.local:32000/webhooks.api:1.0.117
-docker push master-0.local:32000/mobileshoppingagg:1.0.117
-docker push master-0.local:32000/webshoppingagg:1.0.117
-docker push master-0.local:32000/ordering.signalrhub:1.0.117
-docker push master-0.local:32000/webstatus:1.0.117
-docker push master-0.local:32000/webspa:1.0.117
-docker push master-0.local:32000/webmvc:1.0.117
-docker push master-0.local:32000/webhooks.client:1.0.117
+docker push master-0.local:32000/identity.api:1.0.118
+docker push master-0.local:32000/basket.api:1.0.118
+docker push master-0.local:32000/catalog.api:1.0.118
+docker push master-0.local:32000/ordering.api:1.0.118
+docker push master-0.local:32000/ordering.backgroundtasks:1.0.118
+docker push master-0.local:32000/payment.api:1.0.118
+docker push master-0.local:32000/webhooks.api:1.0.118
+docker push master-0.local:32000/mobileshoppingagg:1.0.118
+docker push master-0.local:32000/webshoppingagg:1.0.118
+docker push master-0.local:32000/ordering.signalrhub:1.0.118
+docker push master-0.local:32000/webstatus:1.0.118
+docker push master-0.local:32000/webspa:1.0.118
+docker push master-0.local:32000/webmvc:1.0.118
+docker push master-0.local:32000/webhooks.client:1.0.118
 
 #helm install eshop ../deploy/microk8s/chart --namespace leenet
 helm upgrade eshop ../deploy/microk8s/chart --namespace leenet
