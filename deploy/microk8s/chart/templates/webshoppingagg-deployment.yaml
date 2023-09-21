@@ -40,13 +40,13 @@ spec:
             - name: ReverseProxy__Clusters__orders__Destinations__destination0__Address
               value: http://ordering-api
             - name: ReverseProxy__Clusters__signalr__Destinations__destination0__Address
-              value: https://signalr.leenet.link
+              value: https://signalr.{{ .Values.rootDomainName }}
             - name: Identity__Url
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: Urls__Identity
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: Urls__Signalr
-              value: https://signalr.leenet.link
+              value: https://signalr.{{ .Values.rootDomainName }}
             - name: Urls__Catalog
               value: http://catalog-api
             - name: Urls__Basket

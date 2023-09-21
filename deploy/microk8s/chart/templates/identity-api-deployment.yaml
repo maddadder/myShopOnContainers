@@ -35,22 +35,22 @@ spec:
             - name: BasketApiClient
               value: http://basket-api
             - name: ConnectionStrings__IdentityDb
-              value: Server=sqldata.leenet.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.IdentityDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+              value: Server=sqldata.{{ .Values.appNamespace }}.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.IdentityDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
             - name: MobileShoppingAggClient
-              value: https://eshop.leenet.link/mobileshoppingagg
+              value: https://eshop.{{ .Values.rootDomainName }}/mobileshoppingagg
             - name: MvcClient
-              value: https://eshop.leenet.link
+              value: https://eshop.{{ .Values.rootDomainName }}
             - name: OrchestratorType
             - name: OrderingApiClient
               value: http://ordering-api
             - name: SpaClient
-              value: https://webspa.leenet.link
+              value: https://webspa.{{ .Values.rootDomainName }}
             - name: UseCustomizationData
               value: "True"
             - name: WebShoppingAggClient
-              value: https://agg.leenet.link
+              value: https://agg.{{ .Values.rootDomainName }}
             - name: XamarinCallback
-              value: https://eshop.leenet.link/connect/xamarincallback
+              value: https://eshop.{{ .Values.rootDomainName }}/connect/xamarincallback
           image: {{ .Values.registry.url }}/identity.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: identity-api
           ports:

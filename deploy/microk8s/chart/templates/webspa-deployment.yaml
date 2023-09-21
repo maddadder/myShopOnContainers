@@ -37,7 +37,7 @@ spec:
             - name: CatalogUrlHC
               value: http://catalog-api/hc
             - name: IdentityUrl
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: IdentityUrlHC
               value: http://identity-api/hc
             - name: OrchestratorType
@@ -46,9 +46,9 @@ spec:
             - name: PaymentUrlHC
               value: http://payment-api/hc
             - name: PurchaseUrl
-              value: https://agg.leenet.link
+              value: https://agg.{{ .Values.rootDomainName }}
             - name: SignalrHubUrl
-              value: https://signalr.leenet.link
+              value: https://signalr.{{ .Values.rootDomainName }}
             - name: UseCustomizationData
               value: "True"
           image: {{ .Values.registry.url }}/webspa:{{ .Values.image.tag | default .Chart.AppVersion }}

@@ -72,7 +72,8 @@ affinity: {}
 
 gatewayNamespace: default
 gateway: istio-system/leenet-gateway
-appNamespace: leenet
+appNamespace: default
 registry:
   url: "YOUR_REGISTRY.com"
 appVersion: 1.0.100
+rootDomainName: example.com

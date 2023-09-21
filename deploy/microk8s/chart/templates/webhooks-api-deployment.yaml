@@ -30,7 +30,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
             - name: ConnectionStrings__EventBus
-              value: rabbitmq.leenet.svc.cluster.local
+              value: rabbitmq.{{ .Values.appNamespace }}.svc.cluster.local
           image: {{ .Values.registry.url }}/webhooks.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webhooks-api
           resources: {}

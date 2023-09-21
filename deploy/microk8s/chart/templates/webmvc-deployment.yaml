@@ -37,24 +37,24 @@ spec:
             - name: CatalogUrl
               value: http://catalog-api
             - name: IdentityUrl
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: Identity__ExternalUrl
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: CallBackUrl
-              value: https://eshop.leenet.link
+              value: https://eshop.{{ .Values.rootDomainName }}
             - name: OrchestratorType
             - name: OrderingUrl
               value: http://ordering-api
             - name: PaymentUrl
               value: http://payment-api
             - name: PurchaseUrl
-              value: https://agg.leenet.link
+              value: https://agg.{{ .Values.rootDomainName }}
             - name: UseCustomizationData
               value: "True"
             - name: UseLoadTest
               value: "False"
             - name: SignalrHubUrl
-              value: https://signalr.leenet.link
+              value: https://signalr.{{ .Values.rootDomainName }}
           image: {{ .Values.registry.url }}/webmvc:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webmvc
           ports:

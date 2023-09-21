@@ -39,9 +39,9 @@ spec:
             - name: AzureStorageEnabled
               value: "False"
             - name: ConnectionStrings__CatalogDb
-              value: Server=sqldata.leenet.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+              value: Server=sqldata.{{ .Values.appNamespace }}.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
             - name: ConnectionStrings__EventBus
-              value: rabbitmq.leenet.svc.cluster.local
+              value: rabbitmq.{{ .Values.appNamespace }}.svc.cluster.local
             - name: EventBusPassword
               value: 'guest'
             - name: EventBusUserName
@@ -54,7 +54,7 @@ spec:
             - name: Kestrel__Endpoints__gRPC__Url
               value: http://0.0.0.0:81
             - name: PicBaseUrl
-              value: https://agg.leenet.link/c/api/v1/catalog/items/[0]/pic/
+              value: https://agg.{{ .Values.rootDomainName }}/c/api/v1/catalog/items/[0]/pic/
           image: {{ .Values.registry.url }}/catalog.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: catalog-api
           ports:

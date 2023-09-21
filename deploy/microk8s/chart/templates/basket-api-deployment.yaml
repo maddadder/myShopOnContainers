@@ -37,15 +37,15 @@ spec:
             - name: ConnectionString
               value: basket.data
             - name: ConnectionStrings__EventBus
-              value: rabbitmq.leenet.svc.cluster.local
+              value: rabbitmq.{{ .Values.appNamespace }}.svc.cluster.local
             - name: ConnectionStrings__Redis
-              value: redis.leenet.svc.cluster.local
+              value: redis.{{ .Values.appNamespace }}.svc.cluster.local
             - name: EventBusPassword
               value: 'guest'
             - name: EventBusUserName
               value: 'guest'
             - name: Identity__Url
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: OrchestratorType
             - name: UseLoadTest
               value: "False"

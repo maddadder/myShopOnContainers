@@ -7,14 +7,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - agg.leenet.link
+    - agg.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host:  webshoppingagg.leenet.svc.cluster.local
+            host:  webshoppingagg.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -27,14 +27,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - eshop.leenet.link
+    - eshop.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /mobileshoppingagg
       route:
         - destination:
-            host: mobileshoppingagg.leenet.svc.cluster.local
+            host: mobileshoppingagg.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -47,14 +47,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - eshop.leenet.link
+    - eshop.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /webhooks-web
       route:
         - destination:
-            host: webhooks-client.leenet.svc.cluster.local
+            host: webhooks-client.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -67,14 +67,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - eshop.leenet.link
+    - eshop.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /webhooks-api
       route:
         - destination:
-            host: webhooks-api.leenet.svc.cluster.local
+            host: webhooks-api.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -87,14 +87,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - eshop.leenet.link
+    - eshop.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /webstatus
       route:
         - destination:
-            host: webstatus.leenet.svc.cluster.local
+            host: webstatus.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 5107
 ---
@@ -107,14 +107,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - webspa.leenet.link
+    - webspa.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: webspa.leenet.svc.cluster.local
+            host: webspa.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 5104
 ---
@@ -127,14 +127,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - eshop.leenet.link
+    - eshop.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: webmvc.leenet.svc.cluster.local
+            host: webmvc.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -147,14 +147,14 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - identity.leenet.link
+    - identity.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host:  identity-api.leenet.svc.cluster.local
+            host:  identity-api.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80
 ---
@@ -167,13 +167,13 @@ spec:
   gateways:
     - {{ .Values.gateway }}
   hosts:
-    - signalr.leenet.link
+    - signalr.{{ .Values.rootDomainName }}
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host:  ordering-signalrhub.leenet.svc.cluster.local
+            host:  ordering-signalrhub.{{ .Values.appNamespace }}.svc.cluster.local
             port:
               number: 80

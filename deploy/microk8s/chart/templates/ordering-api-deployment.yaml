@@ -37,17 +37,17 @@ spec:
             - name: CheckUpdateTime
               value: "30000"
             - name: ConnectionStrings__OrderingDb
-              value: Server=sqldata.leenet.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+              value: Server=sqldata.{{ .Values.appNamespace }}.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
             - name: ConnectionStrings__EventBus
-              value: rabbitmq.leenet.svc.cluster.local
+              value: rabbitmq.{{ .Values.appNamespace }}.svc.cluster.local
             - name: EventBusPassword
               value: 'guest'
             - name: EventBusUserName
               value: 'guest'
             - name: Identity__ExternalUrl
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: Identity__Url
-              value: https://identity.leenet.link
+              value: https://identity.{{ .Values.rootDomainName }}
             - name: Kestrel__Endpoints__Http__Url
               value: http://0.0.0.0:80
             - name: Kestrel__Endpoints__gRPC__Url
