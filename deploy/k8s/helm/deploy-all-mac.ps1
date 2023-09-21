@@ -104,13 +104,13 @@ if ($useLocalk8s -and $sslEnabled) {
 }
 
 if ($clean) {    
-    $listOfReleases=$(helm ls --filter eshop -q)    
+    $listOfReleases=$(helm ls --namespace $namespace --filter eshop -q)    
     if ([string]::IsNullOrEmpty($listOfReleases)) {
         Write-Host "No previous releases found!" -ForegroundColor Green
 	}else{
         Write-Host "Previous releases found" -ForegroundColor Green
         Write-Host "Cleaning previous helm releases..." -ForegroundColor Green
-        helm uninstall $listOfReleases
+        helm uninstall $listOfReleases --namespace $namespace
         Write-Host "Previous releases deleted" -ForegroundColor Green
 	}        
 }
@@ -149,11 +149,12 @@ if ($deployCharts) {
         }
     }
 
-    foreach ($chart in $gateways) {
-        if ($chartsToDeploy -eq "*" -or $chartsToDeploy.Contains($chart)) {
-            Write-Host "Installing Api Gateway Chart: $chart" -ForegroundColor Green
-            Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile --values $valuesFile --set app.name=$appName --set inf.k8s.dns=$dns  --set image.pullPolicy=$imagePullPolicy --set inf.mesh.enabled=$useMesh --set ingress.hosts=``{$dns``} --set inf.tls.enabled=$sslEnabled" $false
-            
+    if ($microk8s -eq $false){
+        foreach ($chart in $gateways) {
+            if ($chartsToDeploy -eq "*" -or $chartsToDeploy.Contains($chart)) {
+                Write-Host "Installing Api Gateway Chart: $chart" -ForegroundColor Green
+                Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile --values $valuesFile --set app.name=$appName --set inf.k8s.dns=$dns  --set image.pullPolicy=$imagePullPolicy --set inf.mesh.enabled=$useMesh --set ingress.hosts=``{$dns``} --set inf.tls.enabled=$sslEnabled" $false
+            }
         }
     }
 }
