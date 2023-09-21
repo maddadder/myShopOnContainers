@@ -16,7 +16,9 @@ Param(
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$sslSupport = "none",
     [parameter(Mandatory=$false)][string]$tlsSecretName = "eshop-tls-custom",
     [parameter(Mandatory=$false)][string]$chartsToDeploy="*",
-    [parameter(Mandatory=$false)][string]$ingressMeshAnnotationsFile="ingress_values_linkerd.yaml"
+    [parameter(Mandatory=$false)][string]$ingressMeshAnnotationsFile="ingress_values_linkerd.yaml",
+    [parameter(Mandatory=$false)][bool]$microk8s=$false,
+    [parameter(Mandatory=$false)][string]$namespace="default"
     )
 
 function Install-Chart  {
@@ -34,7 +36,7 @@ function Install-Chart  {
     
     if ($chart -ne "eshop-common" -or $customRegistry)  {       # eshop-common is ignored when no secret must be deployed        
         
-        $command = "helm install $appName-$chart $options $chart"
+        $command = "helm install $appName-$chart $options $chart --namespace $namespace"
         Write-Host "Helm Command: $command" -ForegroundColor Gray        
         Invoke-Expression $command
     }
@@ -63,6 +65,12 @@ $ingressValuesFile="ingress_values.yaml"
 if ($useLocalk8s -eq $true) {
     $ingressValuesFile="ingress_values_dockerk8s.yaml"
     $dns="localhost"
+}
+$valuesFile="values.yaml"
+$useIngress = $true
+if ($microk8s -eq $true){
+    $useIngress = $false
+    $valuesFile="microk8s_values.yaml"
 }
 
 if ($externalDns -eq "aks") {
@@ -126,7 +134,7 @@ $gateways = ("apigwms", "apigwws")
 if ($deployInfrastructure) {
     foreach ($infra in $infras) {
         Write-Host "Installing infrastructure: $infra" -ForegroundColor Green
-        helm install "$appName-$infra" --values app.yaml --values inf.yaml --values $ingressValuesFile --set app.name=$appName --set inf.k8s.dns=$dns --set "ingress.hosts={$dns}" $infra     
+        helm install "$appName-$infra" --values app.yaml --values inf.yaml --values $ingressValuesFile --set app.name=$appName --set inf.k8s.dns=$dns --set "ingress.hosts={$dns}" $infra --namespace $namespace
     }
 }
 else {
@@ -137,14 +145,14 @@ if ($deployCharts) {
     foreach ($chart in $charts) {
         if ($chartsToDeploy -eq "*" -or $chartsToDeploy.Contains($chart)) {
             Write-Host "Installing: $chart" -ForegroundColor Green
-            Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile --values $ingressMeshAnnotationsFile --set app.name=$appName --set inf.k8s.dns=$dns --set ingress.hosts=``{$dns``} --set image.tag=$imageTag --set image.pullPolicy=$imagePullPolicy --set inf.tls.enabled=$sslEnabled --set inf.mesh.enabled=$useMesh --set inf.k8s.local=$useLocalk8s" $useCustomRegistry
+            Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile --values $ingressMeshAnnotationsFile --values $valuesFile --set ingress.enabled=$useIngress --set app.name=$appName --set inf.k8s.dns=$dns --set ingress.hosts=``{$dns``} --set image.tag=$imageTag --set image.pullPolicy=$imagePullPolicy --set inf.tls.enabled=$sslEnabled --set inf.mesh.enabled=$useMesh --set inf.k8s.local=$useLocalk8s" $useCustomRegistry
         }
     }
 
     foreach ($chart in $gateways) {
         if ($chartsToDeploy -eq "*" -or $chartsToDeploy.Contains($chart)) {
             Write-Host "Installing Api Gateway Chart: $chart" -ForegroundColor Green
-            Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile  --set app.name=$appName --set inf.k8s.dns=$dns  --set image.pullPolicy=$imagePullPolicy --set inf.mesh.enabled=$useMesh --set ingress.hosts=``{$dns``} --set inf.tls.enabled=$sslEnabled" $false
+            Install-Chart $chart "--values app.yaml --values inf.yaml --values $ingressValuesFile --values $valuesFile --set app.name=$appName --set inf.k8s.dns=$dns  --set image.pullPolicy=$imagePullPolicy --set inf.mesh.enabled=$useMesh --set ingress.hosts=``{$dns``} --set inf.tls.enabled=$sslEnabled" $false
             
         }
     }

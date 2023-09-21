@@ -31,6 +31,8 @@ spec:
               value: Development
             - name: ConnectionStrings__EventBus
               value: rabbitmq.{{ .Values.appNamespace }}.svc.cluster.local
+            - name: ConnectionStrings__WebHooksDB
+              value: Server=sqldata.{{ .Values.appNamespace }}.svc.cluster.local;Database=Microsoft.eShopOnContainers.Services.WebhooksDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
           image: {{ .Values.registry.url }}/webhooks.api:{{ .Values.image.tag | default .Chart.AppVersion }}
           name: webhooks-api
           resources: {}

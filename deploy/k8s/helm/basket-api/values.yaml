@@ -28,7 +28,7 @@ env:
   configmap:
     - name: ConnectionString
       key: basket__ConnectionString
-    - name: EventBusConnection
+    - name: ConnectionStrings__EventBus
       key: all__EventBusConnection
     - name: ApplicationInsights__InstrumentationKey
       key: all__InstrumentationKey

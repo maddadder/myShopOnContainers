@@ -1,0 +1,8 @@
+env:
+  values:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Production
+    - name: Kestrel__Endpoints__Http__Url
+      value: http://0.0.0.0:80
+    - name: Kestrel__Endpoints__gRPC__Url
+      value: http://0.0.0.0:81
